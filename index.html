@@ -1,0 +1,103 @@
+<!doctype html>  
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		
+		<title>A presentation</title>
+		
+		<link rel="stylesheet" href="css/main.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/slideshow.js"></script>
+		<script src="js/highcharts.js"></script>
+		<script src="js/highcharts-theme.js"></script>
+	</head>
+	
+	<body>
+		
+        <slide class="title">
+            <h1>A presentation</h1>
+            <h3>A. Presenter</h3>
+        </slide>
+
+        <slide>
+            <h2>This is a slide</h2>
+            <ul>
+            <li>with bullet points</li>
+            <li>on it</li>
+            <li> with <span class="highlight">highlighting</span> and
+            <strong>more</strong></li>
+            </ul>
+        </slide>
+
+		<script type="text/javascript">
+			mkGraph = (function() {
+				new Highcharts.Chart({
+					chart: {
+						renderTo: 'diagram',
+						defaultSeriesType: 'column'
+					},
+                    legend: {
+                        enabled: false
+                    },
+                    title: {
+                        style: { 
+                            display: 'none'
+                        },
+                    },
+                    plotOptions: {
+                        column: {
+                            borderWidth: 0,
+                            shadow: false
+                        }
+                    },
+                    yAxis: {
+                        labels: {
+                            y: 7
+                        },
+                        title: {
+                            style: {
+                                display: 'none'
+                            }				
+                        }
+                    },
+					xAxis: {
+						categories: [
+                            'one',
+							'two',
+							'three',
+							'four',
+							'five'
+                        ],
+                        labels: {
+                            y: 30
+                        },
+                        title: {
+                            style: {
+                                display: 'none'
+                            }				
+                        }
+					},
+                    series: [{data: [1,2,3,4,5]},
+                             {data: [1.5,0.5,2,1,-1]}]
+                });
+			});
+		</script>
+
+        <slide onsubmit="mkGraph();">
+        <h2>A graph</h2>
+		<div id="diagram" style="height: 80%; align: center;"></div>
+        </slide>
+
+        <slide>
+            <h1 style="position: absolute; left:30%; top: 30%;">Questions?</h1>
+        </slide>
+
+        <slide>
+            <h1 style="position: absolute; left:30%; top: 30%;">Thank you!</h1>
+        </slide>
+
+		<script type="text/javascript">
+			Slideshow.initialize();
+		</script>
+	</body>
+</html>
