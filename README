@@ -1,0 +1,7 @@
+Presentation package using CSS3 and JavaScript. Should work at least in
+Chrome/Chromium. Includes JQuery and Highcharts JavaScript libraries.
+
+(c) Lars Kotthoff <lars@larsko.org> 2011
+
+Highcharts is not free for commercial use! For more information, see
+http://www.highcharts.com/license.
