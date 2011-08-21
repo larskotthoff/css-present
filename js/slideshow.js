@@ -3,13 +3,20 @@ var Slideshow = (function(){
 	
 	function initialize() {
 		document.addEventListener('keydown', onKeyDown, false);
+        total = $("slide").length;
+        $("slide").each(function(i) {
+            if($("#current-slide-number", this).get(0)) {
+                $("#current-slide-number", this).replaceWith('' + (i+1));
+            }
+            if($("#total-slide-number", this).get(0)) {
+                $("#total-slide-number", this).replaceWith('' + total);
+            }
+        });
 		updateSlides();
 	}
 	
 	function onKeyDown(event) {
-		
 		if(event.keyCode >= 33 && event.keyCode <= 39) {
-			
 			switch(event.keyCode) {
 				case 33: index--; break; // page up
 				case 34: index++; break; // page down
@@ -41,5 +48,4 @@ var Slideshow = (function(){
 	return {
 		initialize: initialize
 	};
-	
 })();

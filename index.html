@@ -13,7 +13,6 @@
 	</head>
 	
 	<body>
-		
         <slide class="title">
             <h1>A presentation</h1>
             <h3>A. Presenter</h3>
@@ -25,7 +24,7 @@
             <li>with bullet points</li>
             <li>on it</li>
             <li> with <span class="highlight">highlighting</span> and
-            <strong>more</strong></li>
+                <strong>more</strong></li>
             </ul>
         </slide>
 
@@ -97,6 +96,11 @@
         </slide>
 
 		<script type="text/javascript">
+            $("slide").each(function(i) {
+                if(!$(this).hasClass('title')) {
+                    $(this).append('<div style="position: absolute; top: 95%; left: 95%; font-size: 70%;"><div id="current-slide-number"></div>/<div id="total-slide-number"></div></div>');
+                }
+            });
 			Slideshow.initialize();
 		</script>
 	</body>
