@@ -8,11 +8,13 @@
 		<link rel="stylesheet" href="css/main.css">
 		<script src="js/jquery.js"></script>
 		<script src="js/slideshow.js"></script>
-		<script src="js/highcharts.js"></script>
-		<script src="js/highcharts-theme.js"></script>
+
+        <script src="http://d3js.org/d3.v3.min.js"></script>
 	</head>
 	
 	<body>
+        <toc></toc> <!-- create a table of content -->
+
         <slide class="title">
             <h1>A presentation</h1>
             <h3>A. Presenter</h3>
@@ -28,63 +30,73 @@
             </ul>
         </slide>
 
-		<script type="text/javascript">
-			mkGraph = (function() {
-				new Highcharts.Chart({
-					chart: {
-						renderTo: 'diagram',
-						defaultSeriesType: 'column'
-					},
-                    legend: {
-                        enabled: false
-                    },
-                    title: {
-                        style: { 
-                            display: 'none'
-                        },
-                    },
-                    plotOptions: {
-                        column: {
-                            borderWidth: 0,
-                            shadow: false
-                        }
-                    },
-                    yAxis: {
-                        labels: {
-                            y: 7
-                        },
-                        title: {
-                            style: {
-                                display: 'none'
-                            }				
-                        }
-                    },
-					xAxis: {
-						categories: [
-                            'one',
-							'two',
-							'three',
-							'four',
-							'five'
-                        ],
-                        labels: {
-                            y: 30
-                        },
-                        title: {
-                            style: {
-                                display: 'none'
-                            }				
-                        }
-					},
-                    series: [{data: [1,2,3,4,5]},
-                             {data: [1.5,0.5,2,1,-1]}]
-                });
-			});
-		</script>
+        <slide>
+            <h1 class="allcenter">Press 'm' to show a slide navigation menu.</h1>
+        </slide>
 
+        <style type="text/css">
+            .axis {
+                fill: none;
+                stroke: black;
+            }
+            text {
+                stroke: none;
+                fill: black;
+            }
+        </style>
+        <script type="text/javascript">
+            function mkGraph() {
+                if(!d3.select("#graph").selectAll("svg").empty()) {
+                    // if we have generated the graph already, don't do it again
+                    // (needed when coming back to this slide)
+                    return;
+                }
+                var data = [
+                        [1,1,1], [7,9,1], [9,9,1], [2,8,1], [4,9,1],
+                        [5,5,2], [3,4,2], [7,3,2], [6,7,2], [4,7,2]
+                       ],
+                marginw = 100,
+                marginh = 50,
+                max = 10,
+                width = window.innerWidth - marginw,
+                height = window.innerHeight - marginh,
+                y = d3.scale.linear().range([height-marginh, marginh])
+                    .domain([0, max]),
+                x = d3.scale.linear().range([marginw, width-marginw])
+                    .domain([0, max]),
+                xaxis = d3.svg.axis().scale(x),
+                yaxis = d3.svg.axis().scale(y).orient("left"),
+                c = d3.scale.category10(),
+                line = d3.svg.line()
+                    .x(function(d) { return x(d[0]); })
+                    .y(function(d) { return y(d[1]); });
+
+                var svg = d3.select("#graph").append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+
+                svg.selectAll("circle").data(data).enter().append("circle")
+                   .attr("fill", function(d) { return c(d[2]); })
+                   .attr("cx", function(d) { return x(Math.random()*max); })
+                   .attr("cy", function(d) { return y(Math.random()*max); })
+                   .attr("r", 0)
+                   .transition().duration(1000)
+                   .attr("cx", function(d) { return x(d[0]); })
+                   .attr("cy", function(d) { return y(d[1]); })
+                   .attr("r", 5);
+                svg.append("svg:g")
+                   .attr("transform", "translate(0," + (height-40) + ")")
+                   .attr("class", "axis")
+                   .call(xaxis);
+                svg.append("svg:g")
+                   .attr("transform", "translate(70,0)")
+                   .attr("class", "axis")
+                   .call(yaxis);
+            }
+        </script>
         <slide onsubmit="mkGraph();">
-        <h2>A graph</h2>
-		<div id="diagram" style="height: 80%; align: center;"></div>
+            <h1>A graph</h1>
+            <div style="position: relative; top: -50px;" id="graph"></div>
         </slide>
 
         <slide>
@@ -98,7 +110,8 @@
 		<script type="text/javascript">
             $("slide").each(function(i) {
                 if(!$(this).hasClass('title')) {
-                    $(this).append('<div style="position: absolute; top: 95%; left: 95%; font-size: 70%;"><div id="current-slide-number"></div>/<div id="total-slide-number"></div></div>');
+                    // show slide numbers on each slide except the title
+                    $(this).append('<div style="position: absolute; top: 95%; left: 95%; font-size: 70%;"><div id="current-slide-number"></div>/<div id="total-slides-number"></div></div>');
                 }
             });
 			Slideshow.initialize();
